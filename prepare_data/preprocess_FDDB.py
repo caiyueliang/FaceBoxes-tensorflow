@@ -154,9 +154,9 @@ def preprocess_FDDB(IMAGES_DIR, BOXES_DIR, RESULT_DIR):
 
 
 if __name__ == '__main__':
-    IMAGES_DIR = '/home/lijc08/deeplearning/Data/FDDB/originalPics/'
-    BOXES_DIR = '/home/lijc08/deeplearning/Data/FDDB/FDDB-folds/'
-    RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/val/'
+    IMAGES_DIR = '../../Data/FDDB/originalPics/'
+    BOXES_DIR = '../../Data/FDDB/FDDB-folds/'
+    RESULT_DIR = '../../Data/WIDER/val/'
     # IMAGES_DIR = '/home/gpu2/hdd/dan/FDDB/originalPics/'
     # BOXES_DIR = '/home/gpu2/hdd/dan/FDDB/FDDB-folds/'
     # RESULT_DIR = '/home/gpu2/hdd/dan/FDDB/val/'

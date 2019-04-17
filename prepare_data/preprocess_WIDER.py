@@ -148,18 +148,18 @@ def preprocess_WIDER(IMAGES_DIR, BOXES_PATH, RESULT_DIR):
 
 
 if __name__ == '__main__':
-    IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_train/images/'
-    BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
-    RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train/'
+    IMAGES_DIR = '../../Data/WIDER/WIDER_train/images/'
+    BOXES_PATH = '../../Data/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
+    RESULT_DIR = '../../Data/WIDER/train/'
     # # IMAGES_DIR = '/home/gpu2/hdd/dan/WIDER/WIDER_train/images/'
     # # BOXES_PATH = '/home/gpu2/hdd/dan/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
     # # RESULT_DIR = '/home/gpu2/hdd/dan/WIDER/train/'
     preprocess_WIDER(IMAGES_DIR, BOXES_PATH, RESULT_DIR)
 
     # then run for this images:
-    IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_val/images/'
-    BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_val_bbx_gt.txt'
-    RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train_part2/'
+    IMAGES_DIR = '../../Data/WIDER/WIDER_val/images/'
+    BOXES_PATH = '../../Data/WIDER/wider_face_split/wider_face_val_bbx_gt.txt'
+    RESULT_DIR = '../../Data/WIDER/train_part2/'
     # IMAGES_DIR = '/home/gpu2/hdd/dan/WIDER/WIDER_val/images/'
     # BOXES_PATH = '/home/gpu2/hdd/dan/WIDER/wider_face_split/wider_face_val_bbx_gt.txt'
     # RESULT_DIR = '/home/gpu2/hdd/dan/WIDER/train_part2/'
