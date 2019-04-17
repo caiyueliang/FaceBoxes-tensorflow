@@ -28,7 +28,7 @@ def draw_boxes_on_image(path, boxes):
     return image
 
 
-def get_annotation(path, width, height):
+def get_annotation(boxes, path, width, height):
     name = path.split('/')[-1]
     annotation = {
       "filename": name,
@@ -46,11 +46,11 @@ def get_annotation(path, width, height):
     return annotation
 
 
-def preprocess_WIDER():
+def preprocess_WIDER(IMAGES_DIR, BOXES_PATH, RESULT_DIR):
     # first run this script for this images:
-    IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_train/images/'
-    BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
-    RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train/'
+    # IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_train/images/'
+    # BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
+    # RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train/'
     # IMAGES_DIR = '/home/gpu2/hdd/dan/WIDER/WIDER_train/images/'
     # BOXES_PATH = '/home/gpu2/hdd/dan/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
     # RESULT_DIR = '/home/gpu2/hdd/dan/WIDER/train/'
@@ -142,10 +142,26 @@ def preprocess_WIDER():
         shutil.copy(T.full_path, os.path.join(RESULT_DIR, 'images', name))
 
         # save annotation for it
-        d = get_annotation(T.path, w, h)
+        d = get_annotation(boxes, T.path, w, h)
         json_name = name[:-4] + '.json'
         json.dump(d, open(os.path.join(RESULT_DIR, 'annotations', json_name), 'w'))
 
 
 if __name__ == '__main__':
-    preprocess_WIDER()
+    # IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_train/images/'
+    # BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
+    # RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train/'
+    # # IMAGES_DIR = '/home/gpu2/hdd/dan/WIDER/WIDER_train/images/'
+    # # BOXES_PATH = '/home/gpu2/hdd/dan/WIDER/wider_face_split/wider_face_train_bbx_gt.txt'
+    # # RESULT_DIR = '/home/gpu2/hdd/dan/WIDER/train/'
+    # preprocess_WIDER(IMAGES_DIR, BOXES_PATH, RESULT_DIR)
+
+    # then run for this images:
+    IMAGES_DIR = '/home/lijc08/deeplearning/Data/WIDER/WIDER_val/images/'
+    BOXES_PATH = '/home/lijc08/deeplearning/Data/WIDER/wider_face_split/wider_face_val_bbx_gt.txt'
+    RESULT_DIR = '/home/lijc08/deeplearning/Data/WIDER/train_part2/'
+    # IMAGES_DIR = '/home/gpu2/hdd/dan/WIDER/WIDER_val/images/'
+    # BOXES_PATH = '/home/gpu2/hdd/dan/WIDER/wider_face_split/wider_face_val_bbx_gt.txt'
+    # RESULT_DIR = '/home/gpu2/hdd/dan/WIDER/train_part2/'
+    preprocess_WIDER(IMAGES_DIR, BOXES_PATH, RESULT_DIR)
+
