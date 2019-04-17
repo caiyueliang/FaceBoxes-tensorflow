@@ -3,3 +3,9 @@ python create_tfrecords.py \
     --annotations_dir=/home/lijc08/deeplearning/Data/WIDER/train/annotations/ \
     --output=data/train_shards/ \
     --num_shards=150
+
+python create_tfrecords.py \
+    --image_dir=/home/lijc08/deeplearning/Data/FDDB/val/images/ \
+    --annotations_dir=/home/lijc08/deeplearning/Data/FDDB/val/annotations/ \
+    --output=data/val_shards/ \
+    --num_shards=20
