@@ -4,4 +4,4 @@ data/
 models/
 export/
 *.pb
-
+.idea/
