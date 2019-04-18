@@ -63,8 +63,6 @@ train_input_fn = get_input_fn(is_training=True)
 val_input_fn = get_input_fn(is_training=False)
 estimator = tf.estimator.Estimator(model_fn, params=model_params, config=run_config)
 
-
-
 train_spec = tf.estimator.TrainSpec(train_input_fn, max_steps=input_params['num_steps'])
 eval_spec = tf.estimator.EvalSpec(val_input_fn, steps=None, start_delay_secs=1800, throttle_secs=1800)
 tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)

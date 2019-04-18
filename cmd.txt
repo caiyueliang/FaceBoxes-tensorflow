@@ -27,53 +27,36 @@ freeze_graph总共有11个参数，一个个介绍下(必选： 表示必须有�
 10、initializer_nodes：（可选）默认空。权限加载后，可通过此参数来指定需要初始化的节点，用逗号分隔多个节点名字。
 11、variable_names_blacklist：（可先）默认空。变量黑名单，用于指定不用恢复值的变量，用逗号分隔多个变量名字。
 ==============================================================================================
-freeze_graph \
---input_graph=/tmp/mnist_graph_def_with_ckpts/graph.pbtxt \
---input_checkpoint=/tmp/mnist_graph_def_with_ckpts/model.ckpt-48000 \
---input_binary=false--output_graph=/tmp/mnist_graph_def_with_ckpts/frozen_mnist.pb \
---output_node_names=softmax_tensor
-
+Tensorflow模型固化，将Tensorflow模型和计算图上变量的值合二为一。即 .pbtxt,.ckpt 装换成 .pb 文件
 freeze_graph \
 --input_graph=./models/run00/graph.pbtxt \
---input_checkpoint=./models/run00/model.ckpt-35194 \
---input_binary=false--output_graph=./models/faceboxes.pb \
---output_node_names=boxes,scores,num_boxes
-
-freeze_graph \
---input_graph=./models/run00/graph.pbtxt \
---input_checkpoint=./models/run00/model.ckpt-35194 \
---input_binary=false--output_graph=./models/faceboxes.pb \
---output_node_names=inception3/concat,conv3_2,conv4_2
-
-freeze_graph \
---input_graph=./models/run00/graph.pbtxt \
---input_checkpoint=./models/run00/model.ckpt-2487 \
---input_binary=false--output_graph=./models/faceboxes.pb \
+--input_checkpoint=./models/run00/model.ckpt-13150 \
+--input_binary=false \
+--output_graph=./models/faceboxes.pb \
 --output_node_names=reshaping/loc_predict,reshaping/conf_predict
 
 ==============================================================================================
-optimize_for_inference \
---input=/tmp/mnist_graph_def_with_ckpts/frozen_mnist.pb \
---output=/tmp/mnist_graph_def_with_ckpts/opt_mnist_graph.pb \
---frozen_graph=True \
---input_names=input_tensor \
---output_names=softmax_tensor
+用tflite_convert将 .pb 转 .tflite
+tflite_convert \
+  --output_file=./models/faceboxes.tflite \
+  --graph_def_file=./models/faceboxes.pb \
+  --input_arrays=standardize_input/mul/x \
+  --output_arrays=reshaping/loc_predict,reshaping/conf_predict
+
+tflite_convert \
+  --output_file=/tmp/foo.tflite \
+  --graph_def_file=/tmp/mobilenet_v1_0.50_128/frozen_graph.pb \
+  --input_arrays=input \
+  --output_arrays=MobilenetV1/Predictions/Reshape_1
+
 
 ==============================================================================================
-toco \
---input_file=/tmp/mnist_graph_def_with_ckpts/opt_mnist_graph.pb \
---input_format=TENSORFLOW_GRAPHDEF \
---output_format=TFLITE \
---inference_type=FLOAT \
---input_type=FLOAT \
---input_arrays=input_tensor \
---output_arrays=softmax_tensor \
---input_shapes=1,28,28,1 \
---output_file=/tmp/mnist_graph_def_with_ckpts/mnist.tflite
-
-==============================================================================================
-tflite convert
-用pb文件，要先ckpt转pb
-==============================================================================================
-detector.py
-return {'boxes': boxes, 'scores': scores, 'num_boxes': num_detections}
+用tflite_convert 进行量化
+tflite_convert \
+  --output_file=/tmp/foo.tflite \
+  --graph_def_file=/tmp/some_quantized_graph.pb \
+  --inference_type=QUANTIZED_UINT8 \
+  --input_arrays=input \
+  --output_arrays=MobilenetV1/Predictions/Reshape_1 \
+  --mean_values=128 \
+  --std_dev_values=127
