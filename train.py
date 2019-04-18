@@ -15,6 +15,11 @@ params = json.load(open(CONFIG))
 model_params = params['model_params']
 input_params = params['input_pipeline_params']
 
+config = tf.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.5  # 程序最多只能占用指定gpu50%的显存
+config.gpu_options.allow_growth = True                      # 程序按需申请内存
+sess = tf.Session(config=config)
+
 
 def get_input_fn(is_training=True):
 

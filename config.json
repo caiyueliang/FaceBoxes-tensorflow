@@ -1,6 +1,6 @@
 {
   "model_params": {
-    "model_dir": "models/run00",
+    "model_dir": "models/run01",
 
     "weight_decay": 1e-3,
     "score_threshold": 0.05, "iou_threshold": 0.3, "max_boxes": 200,
