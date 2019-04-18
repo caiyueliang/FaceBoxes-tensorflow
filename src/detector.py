@@ -48,13 +48,13 @@ class Detector:
                 )
                 h, w = new_h, new_w
 
-        feature_maps = feature_extractor(images)
+        feature_maps = feature_extractor(images)                            # facebox基础网络，生成feature_maps
         self.is_training = feature_extractor.is_training
 
-        self.anchors = anchor_generator(feature_maps, image_size=(w, h))
+        self.anchors = anchor_generator(feature_maps, image_size=(w, h))    # 锚框初始化，根据feature_maps大小初始化
         self.num_anchors_per_location = anchor_generator.num_anchors_per_location
         self.num_anchors_per_feature_map = anchor_generator.num_anchors_per_feature_map
-        self._add_box_predictions(feature_maps)
+        self._add_box_predictions(feature_maps)                             # 添加loc [-1, 21824 , 4]和conf[-1, 21824, 2]预测框
 
     def get_predictions(self, score_threshold=0.1, iou_threshold=0.6, max_boxes=20):
         """Postprocess outputs of the network.

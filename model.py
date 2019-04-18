@@ -13,16 +13,17 @@ def model_fn(features, labels, mode, params, config):
 
     # the base network
     is_training = mode == tf.estimator.ModeKeys.TRAIN
-    feature_extractor = FeatureExtractor(is_training)
+    feature_extractor = FeatureExtractor(is_training)       # facebox基础网络
 
     # anchor maker
-    anchor_generator = AnchorGenerator()
+    anchor_generator = AnchorGenerator()                    # 锚框生成器
 
     # add box/label predictors to the feature extractor
-    detector = Detector(features['images'], feature_extractor, anchor_generator)
+    detector = Detector(features['images'], feature_extractor, anchor_generator)    # 进行检测的实例
 
     # add NMS to the graph
     if not is_training:
+        # 非训练模式，进行预测
         predictions = detector.get_predictions(
             score_threshold=params['score_threshold'],
             iou_threshold=params['iou_threshold'],
