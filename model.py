@@ -41,6 +41,10 @@ def model_fn(features, labels, mode, params, config):
             export_outputs={'outputs': export_outputs}
         )
 
+    # tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
+    # for tensor_name in tensor_name_list:
+    #     print(tensor_name)
+        
     # add L2 regularization
     with tf.name_scope('weight_decay'):
         add_weight_decay(params['weight_decay'])
