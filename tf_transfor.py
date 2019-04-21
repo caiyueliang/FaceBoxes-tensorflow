@@ -4,26 +4,43 @@ from tensorflow.python.framework import graph_util
 from tensorflow.python.platform import gfile
 
 
-def frozen_graph_to_tflite():
-    graph_def_file = "./models/faceboxes.pb"
-    input_arrays = ["inputs"]
-    output_arrays = ['out_locs', 'out_confs']
+# 本地的pb文件转换成TensorFlow Lite (float)
+def pb_to_tflite(pb_file, save_name, input_arrays, output_arrays):
+    # graph_def_file = "./models/faceboxes.pb"
+    # input_arrays = ["inputs"]
+    # output_arrays = ['out_locs', 'out_confs']
 
-    converter = tf.lite.TFLiteConverter.from_frozen_graph(graph_def_file, input_arrays, output_arrays)
+    # converter = tf.contrib.lite.TFLiteConverter.from_frozen_graph(pb_file, input_arrays, output_arrays)
+    converter = tf.contrib.lite.TocoConverter.from_frozen_graph(pb_file, input_arrays, output_arrays)
+    # converter = tf.contrib.lite.toco_convert.from_frozen_graph(pb_file, input_arrays, output_arrays)
+
     tflite_model = converter.convert()
-    open("./models/faceboxes.tflite", "wb").write(tflite_model)
+    open(save_name, "wb").write(tflite_model)
 
 
 # 用tf.Session，将GraphDef转换成TensorFlow Lite (float)
-def sess_to_tflite(sess, save_name, inputs=['inputs'], outputs=['out_locs', 'out_confs']):
-        # converter = tf.contrib.lite.TFLiteConverter.from_session(sess, inputs, outputs)
-        converter = tf.contrib.lite.TocoConverter.from_session(sess, inputs, outputs)
-        # converter = tf.contrib.lite.toco_convert.from_session(sess, inputs, outputs)
+def sess_to_tflite(sess, save_name, input_arrays=['inputs'], output_arrays=['out_locs', 'out_confs']):
+    # converter = tf.contrib.lite.TFLiteConverter.from_session(sess, input_arrays, output_arrays)
+    converter = tf.contrib.lite.TocoConverter.from_session(sess, input_arrays, output_arrays)
+    # converter = tf.contrib.lite.toco_convert.from_session(sess, input_arrays, output_arrays)
 
-        tflite_model = converter.convert()
-        open(save_name, "wb").write(tflite_model)
+    tflite_model = converter.convert()
+    open(save_name, "wb").write(tflite_model)
 
 
+# 本地的saveModel文件转换成TensorFlow Lite (float)
+def save_model_to_tflite(saved_model_dir, save_name, input_arrays=None, output_arrays=None):
+    # converter = tf.contrib.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+    converter = tf.contrib.lite.TocoConverter.from_saved_model(saved_model_dir=saved_model_dir,
+                                                               input_arrays=input_arrays,
+                                                               output_arrays=output_arrays)
+    # converter = tf.contrib.lite.toco_convert.from_saved_model(saved_model_dir)
+
+    tflite_model = converter.convert()
+    open(save_name, "wb").write(tflite_model)
+
+
+# =========================================================================================================
 def save_pbtxt(save_path, save_name='graph.pbtxt', output_node_names=['inputs', 'out_locs', 'out_confs']):
     with tf.Session() as sess:
         print('save model graph to .pbtxt: %s' % os.path.join(save_path, save_name))
@@ -64,3 +81,14 @@ def load_pb(load_path, save_name='faceboxes.pb'):
             # op = sess.graph.get_tensor_by_name('op_to_store:0')  # 此处的op_to_store一定要和之前保存时输出的名称一致！
             # ret = sess.run(op, feed_dict={input_x: 5, input_y: 5})
             # print(ret)
+
+
+if __name__ == '__main__':
+    # pb_to_tflite(pb_file="./models/faceboxes.pb",
+    #              save_name="./models/faceboxes.tflite",
+    #              input_arrays=["inputs"],
+    #              output_arrays=['out_locs', 'out_confs'])
+    save_model_to_tflite(saved_model_dir='./export/run00/1555830494',
+                         save_name='./models/faceboxes.tflite',
+                         input_arrays=["image_tensor"],
+                         output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
