@@ -4,6 +4,10 @@ from tensorflow.python.framework import graph_util
 from tensorflow.python.platform import gfile
 
 
+def show_help():
+    help(tf.contrib.lite.TocoConverter)
+
+
 # 本地的pb文件转换成TensorFlow Lite (float)
 def pb_to_tflite(pb_file, save_name, input_arrays, output_arrays):
     # graph_def_file = "./models/faceboxes.pb"
@@ -38,6 +42,13 @@ def save_model_to_tflite(saved_model_dir, save_name, input_arrays=None, output_a
 
     tflite_model = converter.convert()
     open(save_name, "wb").write(tflite_model)
+
+
+# 本地的keras文件转换成TensorFlow Lite (float)(该tf.keras文件必须包含模型和权重。)
+def keras_to_tflite():
+    converter = tf.contrib.lite.TFLiteConverter.from_keras_model_file("keras_model.h5")
+    tflite_model = converter.convert()
+    open("converted_model.tflite", "wb").write(tflite_model)
 
 
 # =========================================================================================================
@@ -84,11 +95,14 @@ def load_pb(load_path, save_name='faceboxes.pb'):
 
 
 if __name__ == '__main__':
+    show_help()
+
     # pb_to_tflite(pb_file="./models/faceboxes.pb",
     #              save_name="./models/faceboxes.tflite",
     #              input_arrays=["inputs"],
     #              output_arrays=['out_locs', 'out_confs'])
-    save_model_to_tflite(saved_model_dir='./export/run00/1555830494',
-                         save_name='./models/faceboxes.tflite',
-                         input_arrays=["image_tensor"],
-                         output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
+
+    # save_model_to_tflite(saved_model_dir='./export/run00/1555830494',
+    #                      save_name='./models/faceboxes.tflite',
+    #                      input_arrays=["image_tensor"],
+    #                      output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
