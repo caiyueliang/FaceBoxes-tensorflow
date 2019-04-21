@@ -43,16 +43,10 @@ tflite_convert \
   --input_arrays=image_tensor \
   --output_arrays=reshaping/loc_predict,reshaping/conf_predict
 
-tflite_convert \
-  --output_file=/tmp/foo.tflite \
-  --graph_def_file=/tmp/mobilenet_v1_0.50_128/frozen_graph.pb \
-  --input_arrays=input \
-  --output_arrays=MobilenetV1/Predictions/Reshape_1
-
 
 tflite_convert \
-  --output_file=./models/faceboxes.tflite \
-  --saved_model_dir=./export/run00/1555812943 \
+  --output_file=./models/faceboxes_float.tflite \
+  --saved_model_dir=./export/run00/1555830494 \
   --inference_type=FLOAT \
   --input_arrays=image_tensor \
   --output_arrays=reshaping/loc_predict,reshaping/conf_predict
@@ -63,7 +57,16 @@ tflite_convert \
   --output_file=/tmp/foo.tflite \
   --graph_def_file=/tmp/some_quantized_graph.pb \
   --inference_type=QUANTIZED_UINT8 \
-  --input_arrays=input \
-  --output_arrays=MobilenetV1/Predictions/Reshape_1 \
+  --input_arrays=image_tensor \
+  --output_arrays=reshaping/loc_predict,reshaping/conf_predict \
+  --mean_values=128 \
+  --std_dev_values=127
+
+tflite_convert \
+  --output_file=./models/faceboxes_quant.tflite \
+  --saved_model_dir=./export/run00/1555830494 \
+  --inference_type=QUANTIZED_UINT8 \
+  --input_arrays=image_tensor \
+  --output_arrays=reshaping/loc_predict,reshaping/conf_predict \
   --mean_values=128 \
   --std_dev_values=127
