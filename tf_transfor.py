@@ -123,7 +123,7 @@ if __name__ == '__main__':
     #                            save_name='./models/faceboxes.tflite',
     #                            input_arrays=["image_tensor"],
     #                            output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
-    save_model_to_tflite_quant(saved_model_dir='./export/run00/1555830494',
+    save_model_to_tflite_quant(saved_model_dir='./export/run00/1555849341',
                                save_name='./models/faceboxes.tflite',
                                input_arrays=["image_tensor"],
                                output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])

@@ -29,7 +29,7 @@ run_config = run_config.replace(
 )
 estimator = tf.estimator.Estimator(model_fn, params=model_params, config=run_config)
 
-
+# float
 def serving_input_receiver_fn():
     images = tf.placeholder(dtype=tf.float32, shape=[None, HEIGHT, WIDTH, 3], name='image_tensor')
     features = {'images': images*(1.0/255.0)}
@@ -41,3 +41,17 @@ def serving_input_receiver_fn():
 estimator.export_savedmodel(
     OUTPUT_FOLDER, serving_input_receiver_fn
 )
+
+
+# quant
+# def serving_input_receiver_fn_quant():
+#     images = tf.placeholder(dtype=tf.float32, shape=[None, HEIGHT, WIDTH, 3], name='image_tensor')
+#     features = {'images': images}
+#     # features = {'images': tf.to_bfloat16(images) * (1.0 / 255.0)}
+#
+#     return tf.estimator.export.ServingInputReceiver(features, {'images': images})
+#
+#
+# estimator.export_savedmodel(
+#     OUTPUT_FOLDER, serving_input_receiver_fn_quant
+# )
