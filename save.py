@@ -10,7 +10,7 @@ CONFIG = 'config.json'
 OUTPUT_FOLDER = 'export/run00'
 GPU_TO_USE = '0'
 
-WIDTH, HEIGHT = None, None
+WIDTH, HEIGHT = 1024, 1024
 # size of an input image,
 # set (None, None) if you want inference
 # for images of variable size
@@ -31,8 +31,10 @@ estimator = tf.estimator.Estimator(model_fn, params=model_params, config=run_con
 
 
 def serving_input_receiver_fn():
-    images = tf.placeholder(dtype=tf.uint8, shape=[None, HEIGHT, WIDTH, 3], name='image_tensor')
-    features = {'images': tf.to_float(images)*(1.0/255.0)}
+    images = tf.placeholder(dtype=tf.float32, shape=[None, HEIGHT, WIDTH, 3], name='image_tensor')
+    features = {'images': images*(1.0/255.0)}
+    # features = {'images': tf.to_bfloat16(images) * (1.0 / 255.0)}
+
     return tf.estimator.export.ServingInputReceiver(features, {'images': images})
 
 

@@ -50,6 +50,13 @@ tflite_convert \
   --output_arrays=MobilenetV1/Predictions/Reshape_1
 
 
+tflite_convert \
+  --output_file=./models/faceboxes.tflite \
+  --saved_model_dir=./export/run00/1555812943 \
+  --inference_type=FLOAT \
+  --input_arrays=image_tensor \
+  --output_arrays=reshaping/loc_predict,reshaping/conf_predict
+
 ==============================================================================================
 用tflite_convert 进行量化
 tflite_convert \

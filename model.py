@@ -21,6 +21,12 @@ def model_fn(features, labels, mode, params, config):
     # add box/label predictors to the feature extractor
     detector = Detector(features['images'], feature_extractor, anchor_generator)    # 进行检测的实例
 
+    print("=========================================")
+    tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
+    for tensor_name in tensor_name_list:
+        print(tensor_name)
+    print("=========================================")
+
     # add NMS to the graph
     if not is_training:
         # 非训练模式，进行预测
@@ -85,12 +91,6 @@ def model_fn(features, labels, mode, params, config):
     for g, v in grads_and_vars:
         tf.summary.histogram(v.name[:-2] + '_hist', v)
         tf.summary.histogram(v.name[:-2] + '_grad_hist', g)
-
-    print("=========================================")
-    tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
-    for tensor_name in tensor_name_list:
-        print(tensor_name)
-    print("=========================================")
 
     return tf.estimator.EstimatorSpec(mode, loss=total_loss, train_op=train_op)
 
