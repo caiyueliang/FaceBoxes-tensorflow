@@ -33,7 +33,7 @@ def sess_to_tflite(sess, save_name, input_arrays=['inputs'], output_arrays=['out
 
 
 # 本地的saveModel文件转换成TensorFlow Lite (float)
-def save_model_to_tflite(saved_model_dir, save_name, input_arrays=None, output_arrays=None):
+def save_model_to_tflite_float(saved_model_dir, save_name, input_arrays=None, output_arrays=None):
     # converter = tf.contrib.lite.TFLiteConverter.from_saved_model(saved_model_dir)
     converter = tf.contrib.lite.TocoConverter.from_saved_model(saved_model_dir=saved_model_dir,
                                                                input_arrays=input_arrays,
@@ -49,6 +49,23 @@ def keras_to_tflite():
     converter = tf.contrib.lite.TFLiteConverter.from_keras_model_file("keras_model.h5")
     tflite_model = converter.convert()
     open("converted_model.tflite", "wb").write(tflite_model)
+
+
+# =========================================================================================================
+# 本地的saveModel文件转换成TensorFlow Lite (quant)
+def save_model_to_tflite_quant(saved_model_dir, save_name, input_arrays=None, output_arrays=None):
+    # converter = tf.contrib.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+    converter = tf.contrib.lite.TocoConverter.from_saved_model(saved_model_dir=saved_model_dir,
+                                                               input_arrays=input_arrays,
+                                                               output_arrays=output_arrays)
+    # converter = tf.contrib.lite.toco_convert.from_saved_model(saved_model_dir)
+
+    converter.inference_type = tf.contrib.lite.constants.QUANTIZED_UINT8
+    input_arrays = converter.get_input_arrays()
+    converter.quantized_input_stats = {input_arrays[0]: (128., 127.)}
+
+    tflite_model = converter.convert()
+    open(save_name, "wb").write(tflite_model)
 
 
 # =========================================================================================================
@@ -95,14 +112,18 @@ def load_pb(load_path, save_name='faceboxes.pb'):
 
 
 if __name__ == '__main__':
-    show_help()
+    # show_help()
 
     # pb_to_tflite(pb_file="./models/faceboxes.pb",
     #              save_name="./models/faceboxes.tflite",
     #              input_arrays=["inputs"],
     #              output_arrays=['out_locs', 'out_confs'])
 
-    # save_model_to_tflite(saved_model_dir='./export/run00/1555830494',
-    #                      save_name='./models/faceboxes.tflite',
-    #                      input_arrays=["image_tensor"],
-    #                      output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
+    # save_model_to_tflite_float(saved_model_dir='./export/run00/1555830494',
+    #                            save_name='./models/faceboxes.tflite',
+    #                            input_arrays=["image_tensor"],
+    #                            output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
+    save_model_to_tflite_quant(saved_model_dir='./export/run00/1555830494',
+                               save_name='./models/faceboxes.tflite',
+                               input_arrays=["image_tensor"],
+                               output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
