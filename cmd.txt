@@ -33,14 +33,14 @@ freeze_graph \
 --input_checkpoint=./models/run00/model.ckpt-13150 \
 --input_binary=false \
 --output_graph=./models/faceboxes.pb \
---output_node_names=reshaping/loc_predict,reshaping/conf_predict
+--output_node_names=image_tensor,reshaping/loc_predict,reshaping/conf_predict
 
 ==============================================================================================
 用tflite_convert将 .pb 转 .tflite
 tflite_convert \
   --output_file=./models/faceboxes.tflite \
   --graph_def_file=./models/faceboxes.pb \
-  --input_arrays=standardize_input/mul/x \
+  --input_arrays=image_tensor \
   --output_arrays=reshaping/loc_predict,reshaping/conf_predict
 
 tflite_convert \
