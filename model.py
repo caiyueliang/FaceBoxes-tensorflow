@@ -6,6 +6,14 @@ from src import Detector, AnchorGenerator, FeatureExtractor
 from evaluation_utils import Evaluator
 
 
+def show_node_name():
+    print("=========================================")
+    tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
+    for tensor_name in tensor_name_list:
+        print(tensor_name)
+    print("=========================================")
+
+
 def model_fn(features, labels, mode, params, config):
     """This is a function for creating a computational tensorflow graph.
     The function is in format required by tf.estimator.
@@ -21,11 +29,7 @@ def model_fn(features, labels, mode, params, config):
     # add box/label predictors to the feature extractor
     detector = Detector(features['images'], feature_extractor, anchor_generator)    # 进行检测的实例
 
-    print("=========================================")
-    tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
-    for tensor_name in tensor_name_list:
-        print(tensor_name)
-    print("=========================================")
+    # show_node_name()
 
     # add NMS to the graph
     if not is_training:

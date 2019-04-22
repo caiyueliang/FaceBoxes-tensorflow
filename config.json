@@ -18,7 +18,7 @@
 
   "input_pipeline_params": {
     "image_size": [1024, 1024],
-    "batch_size": 8,
+    "batch_size": 12,
     "train_dataset": "data/train_shards/",
     "val_dataset": "data/val_shards/",
     "num_steps": 240000
