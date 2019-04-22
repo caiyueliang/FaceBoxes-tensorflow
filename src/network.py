@@ -26,14 +26,16 @@ class FeatureExtractor:
             )
             return x
 
-        with tf.name_scope('standardize_input'):
-            x = preprocess(images)
+        x = images
+        # with tf.name_scope('standardize_input'):
+        #     x = preprocess(images)
 
         # rapidly digested convolutional layers
         params = {
             'padding': 'SAME',
             'activation_fn': lambda x: tf.nn.crelu(x, axis=3),
-            'normalizer_fn': batch_norm, 'data_format': 'NHWC'
+            'normalizer_fn': batch_norm,
+            'data_format': 'NHWC'
         }
         with slim.arg_scope([slim.conv2d], **params):
             with slim.arg_scope([slim.max_pool2d], stride=2, padding='SAME', data_format='NHWC'):
@@ -44,8 +46,10 @@ class FeatureExtractor:
 
         # multiple scale convolutional layers
         params = {
-            'padding': 'SAME', 'activation_fn': tf.nn.relu,
-            'normalizer_fn': batch_norm, 'data_format': 'NHWC'
+            'padding': 'SAME',
+            'activation_fn': tf.nn.relu,
+            'normalizer_fn': batch_norm,
+            'data_format': 'NHWC'
         }
         with slim.arg_scope([slim.conv2d], **params):
             features = []  # extracted feature maps
