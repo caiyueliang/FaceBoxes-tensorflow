@@ -66,7 +66,7 @@ tflite_convert \
   --input_format=TENSORFLOW_GRAPHDEF \
   --output_format=TFLITE \
   --output_file=./models/faceboxes_quant.tflite \
-  --saved_model_dir=./export/run00/1555987724 \
+  --saved_model_dir=./export/run00/1555989957 \
   --inference_type=QUANTIZED_UINT8 \
   --inference_input_type=QUANTIZED_UINT8 \
   --input_arrays=image_tensor \
