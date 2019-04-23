@@ -33,7 +33,9 @@ class FeatureExtractor:
         # rapidly digested convolutional layers
         params = {
             'padding': 'SAME',
-            'activation_fn': lambda x: tf.nn.crelu(x, axis=3),
+            # TODO
+            # 'activation_fn': lambda x: tf.nn.crelu(x, axis=3),
+            'activation_fn': tf.nn.relu,
             'normalizer_fn': batch_norm,
             'data_format': 'NHWC'
         }
