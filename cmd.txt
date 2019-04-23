@@ -66,7 +66,7 @@ tflite_convert \
   --input_format=TENSORFLOW_GRAPHDEF \
   --output_format=TFLITE \
   --output_file=./models/faceboxes_quant.tflite \
-  --saved_model_dir=./export/run00/1555989957 \
+  --saved_model_dir=./export/run00/1556000322 \
   --inference_type=QUANTIZED_UINT8 \
   --inference_input_type=QUANTIZED_UINT8 \
   --input_arrays=image_tensor \
@@ -80,3 +80,7 @@ tflite_convert \
 # 1.12	    tf.contrib.lite.TFLiteConverter
 # 1.9-1.11	tf.contrib.lite.TocoConverter
 # 1.7-1.8	tf.contrib.lite.toco_convert
+
+boxes Tensor("nms/map/TensorArrayStack/TensorArrayGatherV3:0", shape=(4, 200, 4), dtype=float32)
+scores Tensor("nms/map/TensorArrayStack_1/TensorArrayGatherV3:0", shape=(4, 200), dtype=float32)
+num_detections Tensor("nms/map/TensorArrayStack_2/TensorArrayGatherV3:0", shape=(4,), dtype=int32)

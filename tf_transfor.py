@@ -123,10 +123,17 @@ if __name__ == '__main__':
     #              input_arrays=["inputs"],
     #              output_arrays=['out_locs', 'out_confs'])
 
-    save_model_to_tflite_float(saved_model_dir='./export/run00/1555989957',
+    # save_model_to_tflite_float(saved_model_dir='./export/run00/1556000322',
+    #                            save_name='./models/faceboxes_float.tflite',
+    #                            input_arrays=["image_tensor"],
+    #                            output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
+    save_model_to_tflite_float(saved_model_dir='./export/run00/1556000322',
                                save_name='./models/faceboxes_float.tflite',
                                input_arrays=["image_tensor"],
-                               output_arrays=['reshaping/loc_predict', 'reshaping/conf_predict'])
+                               output_arrays=['nms/map/TensorArrayStack/TensorArrayGatherV3',
+                                              'nms/map/TensorArrayStack_1/TensorArrayGatherV3',
+                                              'nms/map/TensorArrayStack_2/TensorArrayGatherV3'])
+
     # save_model_to_tflite_quant(saved_model_dir='./export/run00/1555989957',
     #                            save_name='./models/faceboxes_quant.tflite',
     #                            input_arrays=["image_tensor"],

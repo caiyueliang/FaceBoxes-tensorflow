@@ -28,7 +28,6 @@ def model_fn(features, labels, mode, params, config):
 
     # add box/label predictors to the feature extractor
     detector = Detector(features['images'], feature_extractor, anchor_generator)    # 进行检测的实例
-
     # show_node_name()
 
     # add NMS to the graph
@@ -39,6 +38,7 @@ def model_fn(features, labels, mode, params, config):
             iou_threshold=params['iou_threshold'],
             max_boxes=params['max_boxes']
         )
+        # show_node_name()
 
     if mode == tf.estimator.ModeKeys.PREDICT:
         # this is required for exporting a savedmodel
