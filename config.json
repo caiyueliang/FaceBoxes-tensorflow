@@ -21,6 +21,6 @@
     "batch_size": 4,
     "train_dataset": "data/train_shards/",
     "val_dataset": "data/val_shards/",
-    "num_steps": 240000
+    "num_steps": 500000
   }
 }
