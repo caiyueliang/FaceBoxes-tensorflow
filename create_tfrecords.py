@@ -141,6 +141,8 @@ def main():
             writer = tf.python_io.TFRecordWriter(shard_path)
 
         path = os.path.join(annotations_dir, example)
+        print('[annotations] path', path)
+
         annotation = json.load(open(path))
         tf_example = dict_to_tf_example(annotation, image_dir)
         writer.write(tf_example.SerializeToString())
