@@ -125,24 +125,26 @@ def dict_to_tf_example(annotation, image_dir):
     # }))
 
     example = tf.train.Example(features=tf.train.Features(feature={
-        'image/height': int64_feature(height),
-        'image/width': int64_feature(width),
+        'image/height': int64_feature(height),                              # 宽
+        'image/width': int64_feature(width),                                # 高
 
         'image/filename': bytes_feature(image_name.encode('utf8')),         # 文件名
         'image/source_id': bytes_feature(image_name.encode('utf8')),
-        'image/key/sha256': bytes_feature(key.encode('utf8')),
+        'image/key/sha256': bytes_feature(key.encode('utf8')),              # key
         'image/encoded': bytes_feature(encoded_jpg),                        # 图片数据（编码）
-        'image/format': bytes_feature('jpeg'.encode('utf8')),
+        'image/format': bytes_feature('jpeg'.encode('utf8')),               # 图片格式
 
-        'image/object/bbox/xmin': float_list_feature(xmin),
-        'image/object/bbox/xmax': float_list_feature(xmax),
-        'image/object/bbox/ymin': float_list_feature(ymin),
-        'image/object/bbox/ymax': float_list_feature(ymax),
+        'image/object/bbox/xmin': float_list_feature(xmin),                 # xmin（百分比|数组）
+        'image/object/bbox/xmax': float_list_feature(xmax),                 # xmax（百分比|数组）
+        'image/object/bbox/ymin': float_list_feature(ymin),                 # ymin（百分比|数组）
+        'image/object/bbox/ymax': float_list_feature(ymax),                 # ymax（百分比|数组）
 
-        'xmin': float_list_feature(xmin),                      # xmin（百分比|数组）
-        'xmax': float_list_feature(xmax),                      # xmax（百分比|数组）
-        'ymin': float_list_feature(ymin),                      # ymin（百分比|数组）
-        'ymax': float_list_feature(ymax),                      # ymax（百分比|数组）
+        'image/object/class/text': bytes_list_feature(classes_text),
+        'image/object/class/label': int64_list_feature(classes),
+
+        'image/object/difficult': int64_list_feature(difficult_obj),
+        'image/object/truncated': int64_list_feature(truncated),
+        'image/object/view': bytes_list_feature(poses),
     }))
     return example
 
@@ -151,8 +153,16 @@ def int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 
+def int64_list_feature(value):
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
+
+
 def bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+
+def bytes_list_feature(value):
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=value))
 
 
 def float_list_feature(value):
