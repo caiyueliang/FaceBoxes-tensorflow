@@ -62,18 +62,18 @@ def dict_to_tf_example(annotation, image_dir):
 
     image_path = os.path.join(image_dir, image_name)
     with tf.gfile.GFile(image_path, 'rb') as f:
-        encoded_jpg = f.read()
+        encoded_jpg = f.read()                          # 读图片，存encoded_jpg
 
-    # check image format
+    # check image format                                # 检测是否是图片的格式，不是就报错
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = PIL.Image.open(encoded_jpg_io)
     if image.format != 'JPEG':
         raise ValueError('Image format not JPEG!')
 
-    width = int(annotation['size']['width'])
-    height = int(annotation['size']['height'])
+    width = int(annotation['size']['width'])                    # 宽
+    height = int(annotation['size']['height'])                  # 高
     assert width > 0 and height > 0
-    assert image.size[0] == width and image.size[1] == height
+    assert image.size[0] == width and image.size[1] == height   # 判断真实图片宽高和记录宽高是否一致
     ymin, xmin, ymax, xmax = [], [], [], []
 
     just_name = image_name[:-4] if image_name.endswith('.jpg') else image_name[:-5]
@@ -82,7 +82,7 @@ def dict_to_tf_example(annotation, image_dir):
         print(annotation_name, 'is without any objects!')
 
     for obj in annotation['object']:
-        a = float(obj['bndbox']['ymin'])/height
+        a = float(obj['bndbox']['ymin'])/height                 # 存放的是百分比
         b = float(obj['bndbox']['xmin'])/width
         c = float(obj['bndbox']['ymax'])/height
         d = float(obj['bndbox']['xmax'])/width
@@ -94,12 +94,12 @@ def dict_to_tf_example(annotation, image_dir):
         assert obj['name'] == 'face'
 
     example = tf.train.Example(features=tf.train.Features(feature={
-        'filename': _bytes_feature(image_name.encode()),
-        'image': _bytes_feature(encoded_jpg),
-        'xmin': _float_list_feature(xmin),
-        'xmax': _float_list_feature(xmax),
-        'ymin': _float_list_feature(ymin),
-        'ymax': _float_list_feature(ymax),
+        'filename': _bytes_feature(image_name.encode()),        # 文件名
+        'image': _bytes_feature(encoded_jpg),                   # 图片数据（编码）
+        'xmin': _float_list_feature(xmin),                      # xmin（百分比|数组）
+        'xmax': _float_list_feature(xmax),                      # xmax（百分比|数组）
+        'ymin': _float_list_feature(ymin),                      # ymin（百分比|数组）
+        'ymax': _float_list_feature(ymax),                      # ymax（百分比|数组）
     }))
     return example
 
