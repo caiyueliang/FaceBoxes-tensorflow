@@ -159,5 +159,5 @@ def main():
     print('Result is here:', args.output)
 
 
-if __name__ == '__main':
+if __name__ == '__main__':
     main()
