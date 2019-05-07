@@ -49,6 +49,19 @@ For evaluation during the training I use the FDDB dataset (2845 images) and `AP@
       --annotations_dir=/home/gpu2/hdd/dan/FDDB/val/annotations/ \
       --output=data/val_shards/ \
       --num_shards=20
+      
+  生成一个tfrecords文件(ssd版)
+  python create_tfrecords_ssd.py \
+      --image_dir=../Data/WIDER/train/images/ \
+      --annotations_dir=../Data/WIDER/train/annotations/ \
+      --output=data/ssd_train_tfrecords/ \
+      --num_shards=1
+    
+  python create_tfrecords_ssd.py \
+      --image_dir=../Data/WIDER/val/images/ \
+      --annotations_dir=../Data/WIDER/val/annotations/ \
+      --output=data/ssd_val_tfrecords/ \
+      --num_shards=1
   ```
 4. Run `python train.py` to train a face detector. Evaluation on FDDB will happen periodically.
 5. Run `tensorboard --logdir=models/run00` to observe training and evaluation.
