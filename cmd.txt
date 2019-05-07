@@ -15,13 +15,27 @@ python create_tfrecords.py \
 python create_tfrecords.py \
     --image_dir=../Data/WIDER/train/images/ \
     --annotations_dir=../Data/WIDER/train/annotations/ \
-    --output=data/train_shards_1/ \
+    --output=data/1_train_shards/ \
     --num_shards=1
 
 python create_tfrecords.py \
     --image_dir=../Data/WIDER/val/images/ \
     --annotations_dir=../Data/WIDER/val/annotations/ \
-    --output=data/val_shards_1/ \
+    --output=data/1_val_shards/ \
+    --num_shards=1
+
+==============================================================================================
+生成一个tfrecords文件(ssd版)
+python create_tfrecords_ssd.py \
+    --image_dir=../Data/WIDER/train/images/ \
+    --annotations_dir=../Data/WIDER/train/annotations/ \
+    --output=data/ssd_train_tfrecords/ \
+    --num_shards=1
+
+python create_tfrecords_ssd.py \
+    --image_dir=../Data/WIDER/val/images/ \
+    --annotations_dir=../Data/WIDER/val/annotations/ \
+    --output=data/ssd_val_tfrecords/ \
     --num_shards=1
 
 ==============================================================================================

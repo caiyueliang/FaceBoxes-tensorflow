@@ -106,7 +106,7 @@ def dict_to_tf_example(annotation, image_dir):
         classes.append(1)                                       # id 1 表示face
         difficult_obj.append(0)
         truncated.append(0)
-        poses.append('Unspecified')
+        poses.append('Unspecified'.encode('utf8'))
     # example = tf.train.Example(features=tf.train.Features(feature={
     #     'filename': _bytes_feature(image_name.encode()),        # 文件名
     #     'image': _bytes_feature(encoded_jpg),                   # 图片数据（编码）
