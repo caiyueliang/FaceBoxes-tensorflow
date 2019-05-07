@@ -113,10 +113,10 @@ def _float_list_feature(value):
 
 
 def main():
-    ARGS = make_args()
+    args = make_args()
 
-    image_dir = ARGS.image_dir
-    annotations_dir = ARGS.annotations_dir
+    image_dir = args.image_dir
+    annotations_dir = args.annotations_dir
     print('Reading images from:', image_dir)
     print('Reading annotations from:', annotations_dir, '\n')
 
@@ -124,11 +124,11 @@ def main():
     num_examples = len(examples_list)
     print('Number of images:', num_examples)
 
-    num_shards = ARGS.num_shards
+    num_shards = args.num_shards
     shard_size = math.ceil(num_examples/num_shards)
     print('Number of images per shard:', shard_size)
 
-    output_dir = ARGS.output
+    output_dir = args.output
     shutil.rmtree(output_dir, ignore_errors=True)
     os.mkdir(output_dir)
 
@@ -156,7 +156,8 @@ def main():
     if num_examples_written != shard_size and num_examples % num_shards != 0:
         writer.close()
 
-    print('Result is here:', ARGS.output)
+    print('Result is here:', args.output)
 
 
-main()
+if __name__ == '__main':
+    main()
