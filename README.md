@@ -49,8 +49,9 @@ For evaluation during the training I use the FDDB dataset (2845 images) and `AP@
       --annotations_dir=/home/gpu2/hdd/dan/FDDB/val/annotations/ \
       --output=data/val_shards/ \
       --num_shards=20
-      
-  生成一个tfrecords文件(ssd版)
+  ```
+3.3 生成一个tfrecords文件 (mobilenet_ssd_v1版)
+  ```
   python create_tfrecords_ssd.py \
       --image_dir=../Data/WIDER/train/images/ \
       --annotations_dir=../Data/WIDER/train/annotations/ \
