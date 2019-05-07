@@ -47,6 +47,7 @@ class Pipeline:
         self.num_examples = num_examples
         assert self.num_examples > 0
 
+        # from_tensor_slices 创建一个切片数据集。我们要确保该数据集可以运行无限次数，并且数据被重新洗牌并放入指定大小的批次中。
         dataset = tf.data.Dataset.from_tensor_slices(filenames)
         num_shards = len(filenames)
 

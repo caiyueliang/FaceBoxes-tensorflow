@@ -59,8 +59,9 @@ run_config = run_config.replace(
     log_step_count_steps=100
 )
 
-train_input_fn = get_input_fn(is_training=True)
-val_input_fn = get_input_fn(is_training=False)
+train_input_fn = get_input_fn(is_training=True)     # 训练数据
+val_input_fn = get_input_fn(is_training=False)      # 验证数据
+
 estimator = tf.estimator.Estimator(model_fn, params=model_params, config=run_config)
 
 train_spec = tf.estimator.TrainSpec(train_input_fn, max_steps=input_params['num_steps'])

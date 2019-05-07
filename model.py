@@ -14,6 +14,7 @@ def show_node_name():
     print("=========================================")
 
 
+# model_fn输入参数features, labels就是input_fn的返回值
 def model_fn(features, labels, mode, params, config):
     """This is a function for creating a computational tensorflow graph.
     The function is in format required by tf.estimator.
