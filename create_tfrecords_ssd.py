@@ -77,7 +77,13 @@ def dict_to_tf_example(annotation, image_dir):
     height = int(annotation['size']['height'])                  # 高
     assert width > 0 and height > 0
     assert image.size[0] == width and image.size[1] == height   # 判断真实图片宽高和记录宽高是否一致
+
     ymin, xmin, ymax, xmax = [], [], [], []
+    classes_text = []
+    classes = []
+    difficult_obj = []
+    truncated = []
+    poses = []
 
     just_name = image_name[:-4] if image_name.endswith('.jpg') else image_name[:-5]
     annotation_name = just_name + '.json'
@@ -94,8 +100,13 @@ def dict_to_tf_example(annotation, image_dir):
         xmin.append(b)
         ymax.append(c)
         xmax.append(d)
-        assert obj['name'] == 'face'
 
+        assert obj['name'] == 'face'
+        classes_text.append(obj['name'].encode('utf8'))
+        classes.append(1)                                       # id 1 表示face
+        difficult_obj.append(0)
+        truncated.append(0)
+        poses.append('Unspecified')
     # example = tf.train.Example(features=tf.train.Features(feature={
     #     'filename': _bytes_feature(image_name.encode()),        # 文件名
     #     'image': _bytes_feature(encoded_jpg),                   # 图片数据（编码）
