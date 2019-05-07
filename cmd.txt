@@ -10,6 +10,19 @@ python create_tfrecords.py \
     --output=data/val_shards/ \
     --num_shards=20
 
+==============================================================================================
+只生成一个tfrecords文件
+python create_tfrecords.py \
+    --image_dir=../Data/WIDER/train/images/ \
+    --annotations_dir=../Data/WIDER/train/annotations/ \
+    --output=data/train_shards_1/ \
+    --num_shards=1
+
+python create_tfrecords.py \
+    --image_dir=../Data/WIDER/val/images/ \
+    --annotations_dir=../Data/WIDER/val/annotations/ \
+    --output=data/val_shards_1/ \
+    --num_shards=1
 
 ==============================================================================================
 TF to TF lite
