@@ -52,14 +52,16 @@ class Pipeline:
         num_shards = len(filenames)
 
         if shuffle:
-            dataset = dataset.shuffle(buffer_size=num_shards)
+            dataset = dataset.shuffle(buffer_size=num_shards)               # 随机打乱顺序
 
-        dataset = dataset.flat_map(tf.data.TFRecordDataset)
+        dataset = dataset.flat_map(tf.data.TFRecordDataset)                 # 元素转换,为每个文件创建一个嵌套的数据集。
         dataset = dataset.prefetch(buffer_size=batch_size)
 
         if shuffle:
-            dataset = dataset.shuffle(buffer_size=SHUFFLE_BUFFER_SIZE)
+            dataset = dataset.shuffle(buffer_size=SHUFFLE_BUFFER_SIZE)      # 随机打乱顺序
         dataset = dataset.repeat(None if repeat else 1)
+
+        # _parse_and_preprocess 里面对图片数据进行压缩和转换
         dataset = dataset.map(self._parse_and_preprocess, num_parallel_calls=NUM_THREADS)
 
         # we need batches of fixed size
@@ -121,7 +123,7 @@ class Pipeline:
         ], axis=1)
         boxes = tf.to_float(boxes)
         # it is important to clip here!
-        boxes = tf.clip_by_value(boxes, clip_value_min=0.0, clip_value_max=1.0)
+        boxes = tf.clip_by_value(boxes, clip_value_min=0.0, clip_value_max=1.0)     # 变量值压缩到0.0 - 1.0之间
 
         if self.augmentation:
             image, boxes = self._augmentation_fn(image, boxes)

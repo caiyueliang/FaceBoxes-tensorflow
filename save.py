@@ -29,6 +29,7 @@ run_config = run_config.replace(
 )
 estimator = tf.estimator.Estimator(model_fn, params=model_params, config=run_config)
 
+
 # float
 def serving_input_receiver_fn():
     images = tf.placeholder(dtype=tf.float32, shape=[None, HEIGHT, WIDTH, 3], name='image_tensor')
